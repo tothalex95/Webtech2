@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div ng-app="loginForm" ng-controller="loginFormController">
+		<form ng-submit="submit()">
+			<label>User name: </label>
+			<input type="text" ng-model="login" placeholder="Enter your user name." required>
+			<br />
+			<label>Password: </label>
+			<input type="password" ng-model="password" placeholder="Enter your password." required>
+			<br />
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+	<script>
+		var app = angular.module("loginForm", []);
+		app.controller("loginFormController", function($scope, $http, $location) {
+			angular.element(document).ready(function() {
+				$scope.submit = function() {
+					var user = { login: $scope.login, password: $scope.password };
+					$http.post('login', user).then(
+						function success(response) {
+							alert(response.status + ', ' + response.statusText + ", " + response.data);
+							$location.path(response.data);
+							expect($location.absUrl()).toBe('http:/127.0.0.1:8081/' + response.data);
+						},
+						function error(response) {
+							alert(response.status + ', ' + response.statusText + ", " + response.data);
+							$location.path(response.data);
+						}
+					);
+				};
+			});
+		});
+	</script>
+</body>
+</html>

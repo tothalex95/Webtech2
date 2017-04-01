@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div ng-app="bookForm" ng-controller="bookFormController">
+		<form action="http://127.0.0.1:8081/bookList" ng-submit="submit()">
+			<label>Title: </label>
+			<input type="text" ng-model="title" placeholder="Enter the book's title." required>
+			<br />
+			<label>Author: </label>
+			<select ng-model="author" ng-options="a.name for a in authors"></select>
+			<br />
+			<label>Genre: </label>
+			<select ng-model="genre" ng-options="g for g in genres"></select>
+			<br />
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+	<script>
+		var app = angular.module("bookForm", []);
+		app.controller("bookFormController", function($scope, $http) {
+			angular.element(document).ready(function() {
+				$http.get('authors').then(function(response) {
+					$scope.authors = response.data;
+				});
+				$http.get('genres').then(function(response) {
+					$scope.genres = response.data;
+				});
+				$scope.submit = function() {
+					var book = { title: $scope.title, author: $scope.author.name, genre: $scope.genre };
+					$http.post('addBook', book);
+				};
+			});
+		});
+	</script>
+</body>
+</html>

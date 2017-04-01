@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>BookList</h1>
+	<div ng-app="bookList" ng-controller="bookListController">
+		<table>
+			<tr>
+				<th>Title</th>
+				<th>Author</th>
+				<th>Genre</th>
+			</tr>
+			<tr ng-repeat="book in books">
+				<td>{{ book.title }}</td>
+				<td>{{ book.author }}</td>
+				<td>{{ book.genre }}</td>
+			</tr>
+		</table>
+	</div>
+	<script>
+		var app = angular.module("bookList", []);
+		app.controller("bookListController", function($scope, $http) {
+			angular.element(document).ready(function() {
+				$http.get("books").then(function(response) {
+					$scope.books = response.data;
+				});
+			});
+		});
+	</script>
+</body>
+</html>
