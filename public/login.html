@@ -1,45 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<div ng-app="loginForm" ng-controller="loginFormController">
-		<form ng-submit="submit()">
-			<label>User name: </label>
-			<input type="text" ng-model="login" placeholder="Enter your user name." required>
-			<br />
-			<label>Password: </label>
-			<input type="password" ng-model="password" placeholder="Enter your password." required>
-			<br />
-			<input type="submit" value="Submit" />
-		</form>
+<div class="container-fluid">
+	<div ng-if="statusCode == 201">
+		<div class="alert alert-warning">
+			<p><strong>Warning!</strong> Incorrect username or password.</p>
+		</div>
 	</div>
-	<script>
-		var app = angular.module("loginForm", []);
-		app.controller("loginFormController", function($scope, $http, $location) {
-			angular.element(document).ready(function() {
-				$scope.submit = function() {
-					var user = { login: $scope.login, password: $scope.password };
-					$http.post('login', user).then(
-						function success(response) {
-							alert(response.status + ', ' + response.statusText + ", " + response.data);
-							$location.path(response.data);
-							expect($location.absUrl()).toBe('http:/127.0.0.1:8081/' + response.data);
-						},
-						function error(response) {
-							alert(response.status + ', ' + response.statusText + ", " + response.data);
-							$location.path(response.data);
-						}
-					);
-				};
-			});
-		});
-	</script>
-</body>
-</html>
+	<div ng-if="statusCode >= 500">
+		<div class="alert alert-dander">
+			<p><strong>Error {{ statusCode }}!</strong> Oops! Something went wrong. Try again later!</p>
+		</div>
+	</div>
+	<form ng-submit="login()">
+		<div class="form-group">
+			<label>Username:</label>
+			<input type="text" ng-model="newuser.username" class="form-control" placeholder="Enter your username." />
+		</div>
+		<div class="form-group">
+			<label>Password:</label>
+			<input type="password" ng-model="newuser.password" class="form-control" placeholder="Enter your password." />
+		</div>
+		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-log-in"></i> Login</button>
+	</form>
+</div>
