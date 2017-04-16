@@ -107,7 +107,7 @@
 							</p>
 						</div>
 					</div>
-					<div ng-if="statusCode == 201">
+					<div ng-if="statusCode == 409">
 						<div class="alert alert-warning">
 							<p>
 								<strong>Warning!</strong> The book you've just requested is
@@ -115,7 +115,7 @@
 							</p>
 						</div>
 					</div>
-					<div ng-if="statusCode == 202">
+					<div ng-if="statusCode == 400">
 						<div class="alert alert-warning">
 							<p>
 								<strong>Warning!</strong> You've already requested this book.

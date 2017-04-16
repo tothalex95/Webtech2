@@ -37,7 +37,7 @@
 							</p>
 						</div>
 					</div>
-					<div ng-if="statusCode == 201">
+					<div ng-if="statusCode == 403">
 						<div class="alert alert-warning">
 							<p>
 								<strong>Warning!</strong> You don't have permission to lend
@@ -45,7 +45,7 @@
 							</p>
 						</div>
 					</div>
-					<div ng-if="statusCode == 202">
+					<div ng-if="statusCode == 409">
 						<div class="alert alert-warning">
 							<p>
 								<strong>Warning!</strong> You can't lend this book beacuse it's

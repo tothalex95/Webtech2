@@ -4,7 +4,7 @@
 			<p><strong>Success!</strong> You've successfully added {{ book.quantity }} new instance of {{ book.author }}'s {{ book.title }}.</p>
 		</div>
 	</div>
-	<div ng-if="statusCode == 201">
+	<div ng-if="statusCode == 403">
 		<div class="alert alert-warning">
 			<p><strong>Warning!</strong> You don't have permission to add new book instance.</p>
 		</div>

@@ -4,12 +4,12 @@
 			<p><strong>Success!</strong> You've successfully modified your account.</p>
 		</div>
 	</div>
-	<div ng-if="statusCode == 201">
+	<div ng-if="statusCode == 403">
 		<div class="alert alert-warning">
 			<p><strong>Warning!</strong> You have to log in to modify an account.</p>
 		</div>
 	</div>
-	<div ng-if="statusCode == 202">
+	<div ng-if="statusCode == 409">
 		<div class="alert alert-warning">
 			<p><strong>Warning!</strong> The old password is incorrect.</p>
 		</div>

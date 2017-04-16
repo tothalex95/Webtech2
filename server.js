@@ -48,7 +48,7 @@ app.post("/login", function(req, res) {
 		}
 	}
 	if (user === undefined) {
-		res.status(201).end();
+		res.status(401).end();
 	} else {
 		res.send(user);
 	}
@@ -61,14 +61,14 @@ app.post("/logout", function(req, res) {
 
 app.post("/editUser", function(req, res) {
 	if (user === undefined) {
-		res.status(201).end();
+		res.status(403).end();
 		return;
 	}
 	var users = JSON.parse(fs.readFileSync(__dirname + "/users.json", "utf8"));
 	for (var u of users) {
 		if (u.id === user.id) {
 			if (u.password !== req.body.oldpassword) {
-				res.status(202).end();
+				res.status(409).end();
 				return;
 			}
 			u.name = req.body.name;
@@ -82,13 +82,13 @@ app.post("/editUser", function(req, res) {
 
 app.post("/addAuthor", function(req, res) {
 	if (user === undefined || user.role !== "LIBRARIAN") {
-		res.status(201).end();
+		res.status(403).end();
 		return;
 	}
 	var authors = JSON.parse(fs.readFileSync(__dirname + "/authors.json", "utf8"));
 	for (var a of authors) {
 		if (a.name === req.body.name) {
-			res.status(202).end();
+			res.status(409).end();
 			return;
 		}
 	}
@@ -101,13 +101,13 @@ app.post("/addAuthor", function(req, res) {
 
 app.post("/addBook", function(req, res) {
 	if (user === undefined || user.role !== "LIBRARIAN") {
-		res.status(201).end();
+		res.status(403).end();
 		return;
 	}
 	var books = JSON.parse(fs.readFileSync(__dirname + "/books.json", "utf8"));
 	for (var b of books) {
 		if (b.title === req.body.title && b.author === req.body.author) {
-			res.status(202).end();
+			res.status(409).end();
 			return;
 		}
 	}
@@ -120,7 +120,7 @@ app.post("/addBook", function(req, res) {
 
 app.post("/addBookInstance", function(req, res) {
 	if (user === undefined || user.role !== "LIBRARIAN") {
-		res.status(201).end();
+		res.status(403).end();
 		return;
 	}
 	var books = JSON.parse(fs.readFileSync(__dirname + "/books.json", "utf8"));
@@ -140,7 +140,7 @@ app.post("/requestBook", function(req, res) {
 	for (var b of books) {
 		if (b.id === req.body.id) {
 			if (b.available === 0) {
-				res.status(201).end();
+				res.status(409).end();
 				return;
 			}
 			break;
@@ -149,7 +149,7 @@ app.post("/requestBook", function(req, res) {
 	var requests = JSON.parse(fs.readFileSync(__dirname + "/requests.json", "utf8"));
 	for (var r of requests) {
 		if (r.borrower === user.name && r.title === req.body.title && r.author === req.body.author) {
-			res.status(202).end();
+			res.status(400).end();
 			return;
 		}
 	}
@@ -162,14 +162,14 @@ app.post("/requestBook", function(req, res) {
 
 app.post("/lendBook", function(req, res) {
 	if (user === undefined || user.role !== "LIBRARIAN") {
-		res.status(201).end();
+		res.status(403).end();
 		return;
 	}
 	var books = JSON.parse(fs.readFileSync(__dirname + "/books.json", "utf8"));
 	for (var b of books) {
 		if (b.title === req.body.title && b.author === req.body.author) {
 			if (b.available === 0) {
-				res.status(202).end();
+				res.status(409).end();
 				return;
 			} else {
 				b.available--;
@@ -192,5 +192,5 @@ var server = app.listen(8081, function () {
 	var host = server.address().address;
 	var port = server.address().port;
 	
-	console.log("Example app listening at http://%s:%s", host, port);
+	console.log("Library Server listening at http://%s:%s", host, port);
 });
