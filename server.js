@@ -112,7 +112,7 @@ app.post("/addBook", function(req, res) {
 		}
 	}
 	var id = books.length + 1;
-	var book = { "id": id, "title": req.body.title, "author": req.body.author.name, "genre": "img/default.jpg", "cover": req.body.cover, "quantity": 0, "available": 0 };
+	var book = { "id": id, "title": req.body.title, "author": req.body.author.name, "genre": req.body.genre, "cover": req.body.cover, "quantity": 0, "available": 0 };
 	books.push(book);
 	fs.writeFileSync(__dirname + "/books.json", JSON.stringify(books), "utf8");
 	res.end();
